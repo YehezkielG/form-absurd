@@ -1,6 +1,10 @@
 import { Turnstile } from "@marsidev/react-turnstile";
 
-function ProofHuman({ onSuccess }) {
+type ProofHumanProps = {
+    onSuccess: (token: string) => void;
+};
+
+function ProofHuman({ onSuccess }: ProofHumanProps) {
     return (
         <div className="w-[400px] max-w-[90vw] rounded-2xl bg-white px-7 py-6 shadow-2xl">
             <p className="text-sm text-gray-400">

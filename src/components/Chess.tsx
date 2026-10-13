@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Chess } from "chess.js";
-import { Chessboard } from "react-chessboard";
+import { Chessboard, type PieceDropHandlerArgs } from "react-chessboard";
 
 type Puzzle = {
   fen: string;
@@ -31,9 +31,10 @@ const puzzles: Puzzle[] = [
 
 interface ChessProps {
   onSuccess: () => void;
+  onMove?: () => void;
 }
 
-function ChessChallenge({ onSuccess }: ChessProps) {
+function ChessChallenge({ onSuccess, onMove }: ChessProps) {
   const [puzzle] = useState(
     () => puzzles[Math.floor(Math.random() * puzzles.length)]
   );
@@ -45,11 +46,8 @@ function ChessChallenge({ onSuccess }: ChessProps) {
   const handleMove = ({
     sourceSquare,
     targetSquare,
-  }: {
-    sourceSquare: string;
-    targetSquare: string;
-  }) => {
-    if (completed || step === 1) return false;
+  }: PieceDropHandlerArgs) => {
+    if (!targetSquare || completed || step === 1) return false;
 
     const expected = puzzle.moves[step];
 
@@ -75,6 +73,7 @@ function ChessChallenge({ onSuccess }: ChessProps) {
       }
 
       setGame(nextGame);
+      onMove?.();
       setError("");
 
       // Player's first move → Black responds automatically
@@ -135,8 +134,7 @@ function ChessChallenge({ onSuccess }: ChessProps) {
           options={{
             position: game.fen(),
             onPieceDrop: handleMove,
-            boardWidth: 360,
-            arePiecesDraggable: !completed && step !== 1,
+            allowDragging: !completed && step !== 1,
             showNotation: true,
           }}
         />
