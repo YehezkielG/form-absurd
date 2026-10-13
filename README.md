@@ -1,75 +1,85 @@
-# React + TypeScript + Vite
+# Ruang Pengaduan — Form Absurd
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> Masalah sehari-hari seharusnya mudah disampaikan. Di sini, bahkan untuk membuka formulir saja ada prosedurnya.
 
-Currently, two official plugins are available:
+**Ruang Pengaduan** adalah project satire berbentuk formulir pengaduan masyarakat. Pengunjung mengetuk pintu ruang birokrasi, memilih masalah yang dekat dengan kehidupan sehari-hari, lalu menghadapi serangkaian persyaratan dan tantangan sebelum bisa mengirim pengaduan.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Project ini dibuat sebagai tugas desain formulir menggunakan React. Ceritanya menyindir proses pengaduan yang terasa berbelit: keluhan sederhana diikuti data yang tidak relevan, tantangan berlapis, dan status tindak lanjut yang serba tidak pasti.
 
-## React Compiler
+## Alur aplikasi
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Pengunjung melihat pintu **Ruang Pengaduan**.
+2. Setelah pintu diklik, aplikasi menanyakan masalah sehari-hari yang ingin diadukan.
+3. Pengunjung memilih topik dan mengambil nomor antrean untuk masuk ke formulir.
+4. Kolom formulir terbuka satu per satu setelah pengunjung menyelesaikan enam tantangan.
+5. Setelah formulir dikirim, aplikasi menampilkan tanda terima pengaduan dan status proses yang bernuansa satire.
 
-## Expanding the ESLint configuration
+Enam tantangan memakai komponen berikut:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+| Kolom yang dibuka | Tantangan |
+| --- | --- |
+| Nama | Verifikasi manusia |
+| Email | Tic-tac-toe |
+| Jenis kelamin | Memory match |
+| NIM/NIK | Soal aljabar linear |
+| Data pembayaran | Sudoku |
+| Isi pengaduan | Catur |
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Menjalankan project
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Pastikan Node.js dan npm sudah terpasang. Dari folder project, jalankan:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Buka alamat lokal yang ditampilkan Vite di terminal.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Konfigurasi verifikasi manusia
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Tantangan pertama memakai Cloudflare Turnstile. Atur site key Turnstile pada file `.env` di root project:
 
+```env
+VITE_TURNSTILE_SITE_KEY=site-key-anda
 ```
+
+Gunakan site key yang diizinkan untuk domain lokal saat development. Variabel berawalan `VITE_` tersedia di browser, jadi isikan site key publik, bukan secret key.
+
+Perintah lain yang tersedia:
+
+```bash
+npm run build   # memeriksa TypeScript dan membuat build produksi di dist/
+npm run preview # melihat build produksi secara lokal
+npm run lint    # menjalankan ESLint
+```
+
+## Teknologi
+
+- React dan TypeScript
+- Vite
+- Tailwind CSS
+- Lucide React untuk ikon
+- `chess.js` dan `react-chessboard` untuk tantangan catur
+- React Turnstile untuk komponen verifikasi manusia
+
+## Struktur utama
+
+```text
+src/
+├── App.tsx                 # Lobby, pintu, pertanyaan awal, dan alur masuk
+├── global.css              # Gaya lobby, formulir, dialog, dan layar selesai
+├── main.tsx                # Entry point React
+└── components/
+    ├── Form.tsx            # Form pengaduan dan pengaturan tantangan
+    ├── ProofHuman.tsx      # Tantangan verifikasi manusia
+    ├── TTC.tsx             # Tantangan tic-tac-toe
+    ├── MemoryMatch.tsx     # Tantangan memory match
+    ├── LinearAlgebra.tsx   # Tantangan aljabar linear
+    ├── Sudoku.tsx          # Tantangan Sudoku
+    └── Chess.tsx           # Tantangan catur
+```
+
+## Catatan
+
+Project ini adalah simulasi front-end untuk tujuan pembelajaran dan satire. Data formulir tidak dikirim ke server atau instansi pemerintah.
