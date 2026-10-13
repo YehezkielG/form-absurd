@@ -19,7 +19,7 @@ export default function App() {
       <header className="bureau-topbar">
         <a className="bureau-brand" href="#awal"><span className="bureau-brand-icon"><Landmark size={18} /></span><span>RUANG <b>PENGADUAN</b></span></a>
         <span className="bureau-topnote"><span className="office-light" /> PELAYANAN TERBUKA — SELAMA JAM KERJA</span>
-        <span className="bureau-reference">FORM ABSURD / 001</span>
+        <span className="bureau-reference">RUANG PENGADUAN / 001</span>
       </header>
 
       {!insideOffice ? (

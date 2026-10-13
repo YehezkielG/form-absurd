@@ -1,4 +1,4 @@
-# Ruang Pengaduan — Form Absurd
+# Ruang Pengaduan 
 
 > Masalah sehari-hari seharusnya mudah disampaikan. Di sini, bahkan untuk membuka formulir saja ada prosedurnya.
 
